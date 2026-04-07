@@ -1,8 +1,8 @@
-const CACHE_NAME = 'nrs-v1';
+const CACHE_NAME = 'nrs-pro-v1';
 const ASSETS = [
   './index.html',
   './manifest.json',
-  './Tone.14.8.49.min.js'
+  '../../Tone.15.5.6.js'
 ];
 
 self.addEventListener('install', (e) => {
