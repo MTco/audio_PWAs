@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html class="no-js relative bg-transparent" lang="en-US" dir="ltr" prefix="og:https://ogp.me/ns# fb:https://ogp.me/ns/fb">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- Not a WordPressed site -->
+	<meta prefer="safe" />
+	<title>VHAS | Vestibular Alleviation</title>
+	<script charset="utf-8" crossorigin="anonymous" type="text/javascript">
+		;(function(H,e) {
+			try {
+				H.opener = null;
+			} catch(e) {}
+		})(window);
+	</script>
+	<!--[if IE]><meta http-equiv="imagetoolbar" content="no" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]--><meta http-equiv="language" content="en" /><meta http-equiv="content-language" content="en" /><!-- Device configuration--><meta name="viewport" content="width=device-width,initial-scale=1.0" /><meta name="HandheldFriendly" content="true" /><meta name="MobileOptimized" content="320" /><meta name="cleartype" content="on" />
+	<meta name="publisher" content="Mathew Tyler" />
+	<link charset="utf-8" crossorigin="anonymous" rel="manifest" href="manifest.json">
+  <style charset="utf-8" type="text/css" crossorigin="anonymous">
+      body { background: #0a0a0a; color: #ffffff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+      .container { text-align: center; width: 90%; max-width: 400px; }
+      .timer { font-size: 5rem; font-weight: bold; margin: 20px 0; color: #00ffcc; }
+      button { background: #1a1a1a; border: 2px solid #00ffcc; color: #00ffcc; padding: 20px 40px; font-size: 1.5rem; border-radius: 50px; cursor: pointer; transition: 0.3s; width: 100%; }
+      button:active { transform: scale(0.95); background: #00ffcc; color: #000; }
+      .info { margin-top: 30px; font-size: 0.8rem; color: #666; line-height: 1.4; }
+  </style>
+</head>
+<body id="top" class="relative" direction="ltr" lang="en-US" role="document" itemscope itemtype="https://schema.org/isFamilyFriendly">
+    <div class="container">
+        <div id="status">READY</div>
+        <div class="timer" id="timerDisplay">90s</div>
+        <button id="actionBtn">START SESSION</button>
+        <div class="info">100 Hz Sine Wave Synthesis<br>Optimized for Vestibular Stimulation</div>
+    </div>
+
+	<script charset="utf-8" crossorigin="anonymous">
+		;(function() {
+        let audioCtx, oscillator, gainNode, timerInterval;
+        let timeLeft = 90;
+        let isRunning = false;
+
+        const btn = document.getElementById('actionBtn');
+        const display = document.getElementById('timerDisplay');
+        const status = document.getElementById('status');
+
+        function startAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator();
+            gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
+            
+            // Fade in to prevent auditory transients
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + 0.5);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+        }
+
+        function stopAudio() {
+            if (gainNode) {
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioCtx.close();
+                }, 500);
+            }
+            clearInterval(timerInterval);
+            isRunning = false;
+            btn.innerText = 'START SESSION';
+            status.innerText = 'READY';
+        }
+
+        btn.onclick = () => {
+            if (isRunning) {
+                stopAudio();
+                timeLeft = 90;
+                display.innerText = '90s';
+            } else {
+                isRunning = true;
+                btn.innerText = 'STOP';
+                status.innerText = 'ACTIVE STIMULATION';
+                startAudio();
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    display.innerText = timeLeft + 's';
+                    if (timeLeft <= 0) {
+                        stopAudio();
+                        timeLeft = 90;
+                        display.innerText = 'COMPLETE';
+                    }
+                }, 1000);
+            }
+        };
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+		})();
+    </script>
+</body>
+</html>
