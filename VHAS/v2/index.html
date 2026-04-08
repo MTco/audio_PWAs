@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<!-- Not a WordPressed site -->
 	<meta prefer="safe" />
-	<title>NRS Pro V4 | Precision Reset</title>
+	<title>VHAS Pro | Precision Vestibular Alleviation</title>
 	<script charset="utf-8" crossorigin="anonymous" type="text/javascript">
 		;(function(H,e) {
 			try {
@@ -23,212 +23,79 @@
 	<script charset="utf-8" crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha256-EmHN0zMdgmI357C5VLXtfSOByN9DMdIBis6ox6ZKmns="></script>
 	-->
 	<style charset="utf-8" type="text/css" crossorigin="anonymous">
-	  :root { --primary: #007bff; --bg: #050505; --panel: #121212; --text: #e0e0e0; }
-	  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; margin: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
-	  #v-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0; pointer-events: none; }
-	  .app { position: relative; z-index: 10; background: var(--panel); width: 90%; max-width: 450px; padding: 25px; border-radius: 24px; border: 1px solid #222; box-shadow: 0 20px 60px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; }
-	  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-	  h1 { font-size: 0.9rem; letter-spacing: 2px; color: var(--primary); margin: 0; font-weight: 800; }
-	  .help-btn { background: #333; border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; }
-	  .control-group { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; }
-	  label { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-	  input[type="range"] { width: 100%; accent-color: var(--primary); height: 6px; border-radius: 3px; cursor: pointer; }
-	  select { width: 100%; padding: 12px; background: #252525; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 0.85rem; }
-	  .main-btn { width: 100%; padding: 18px; border: none; border-radius: 14px; font-weight: bold; font-size: 1rem; cursor: pointer; background: var(--primary); color: white; transition: 0.2s; box-shadow: 0 4px 15px rgba(0,123,255,0.3); }
-	  .main-btn.active { background: #ff3333; box-shadow: 0 4px 15px rgba(255,51,51,0.3); }
-	  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-	  #help-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;}
-	  .modal-content { background: #111; padding: 30px; border-radius: 20px; max-width: 500px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--primary); }
-	  .modal-content h2 { color: var(--primary); font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid #222; padding-bottom: 10px; }
-	  .modal-content p { font-size: 0.85rem; line-height: 1.6; color: #bbb; }
-	  .close-modal { margin-top: 20px; background: var(--primary); border: none; padding: 12px; color: white; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
+		:root { --accent: #00ffcc; --bg: #050505; }
+		body { background: var(--bg); color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+		.card { background: #111; padding: 40px; border-radius: 24px; border: 1px solid #222; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+		.status-light { width: 12px; height: 12px; border-radius: 50%; background: #333; display: inline-block; margin-right: 8px; }
+		.active .status-light { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+		.timer { font-size: 6rem; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--accent); font-weight: 200; }
+		button { background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: 18px; width: 100%; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+		button:hover { background: rgba(0, 255, 204, 0.1); }
+		button:active { transform: scale(0.98); }
+		.footer { margin-top: 25px; font-size: 0.75rem; color: #555; letter-spacing: 0.5px; }
 	</style>
 </head>
 <body id="top" class="relative" direction="ltr" lang="en-US" role="document" itemscope itemtype="https://schema.org/isFamilyFriendly">
-	<div id="v-layer"></div>
-	<div class="app">
-		<header>
-		  <h1>NEURAL RESET PRO V4</h1>
-		  <button class="help-btn" onclick="toggleHelp()">?</button>
-		</header>
-
-    <div class="control-group">
-	    <label>Neural Presets</label>
-	    <select id="presetSelect">
-	        <option value="">Custom Manual Tuning</option>
-	        <option value="4000">Tinnitus Standard (4000 Hz)</option>
-	        <option value="8000">Tinnitus High-Pitch (8000 Hz)</option>
-	        <option value="12000">Residual Inhibition (12000 Hz)</option>
-	        <option value="440">A440 Binaural Carrier</option>
-	        <option value="100">Pure Vestibular (100 Hz)</option>
-	    </select>
-    </div>
-
-	  <div class="control-group">
-	    <label>Target Frequency <span id="freqLabel">4000 Hz</span></label>
-	    <input type="range" id="freqSlider" min="50" max="15000" step="1" value="4000">
-	  </div>
-
-    <div class="control-group">
-	    <label>Therapy Modality</label>
-	    <select id="modalitySelect">
-	        <option value="notched">Notched White Noise</option>
-	        <option value="cr">CR Neuromodulation</option>
-	        <option value="binaural">Binaural Entrainment</option>
-	        <option value="high">High Frequency Relief</option>
-	        <option value="pure">Pure Vestibular (100Hz Lock)</option>
-	    </select>
-	    <label>Volume Intensity <span id="volLabel">-12 dB</span></label>
-	    <input type="range" id="volSlider" min="-45" max="0" step="1" value="-12">
-    </div>
-
-    <div class="grid">
-	    <div class="control-group" style="margin-bottom:0;">
-	        <label>Visual Mode</label>
-	        <select id="vFreq">
-	          <option value="10">Alpha (10 Hz)</option>
-	          <option value="40">Gamma (40 Hz)</option>
-	        </select>
-	    </div>
-	    <button id="vBtn" class="main-btn" style="height:100%; font-size:0.8rem; background:#222;">START VISUAL</button>
-    </div>
-
-    <button id="mainBtn" class="main-btn" style="margin-top:20px;">ACTIVATE NEURAL ENGINE</button>
+	<div class="card" id="appInterface">
+	    <div id="statusLabel"><span class="status-light"></span>READY</div>
+	    <div class="timer" id="timer">90s</div>
+	    <button id="toggleBtn">Start Treatment</button>
+	    <p class="footer">STIMULUS: 100 HZ SINE WAVE<br>FRAMEWORK: NAGOYA UNIVERSITY PROTOCOL</p>
 	</div>
-
-  <div id="help-modal">
-		<div class="modal-content">
-		  <h2>Neural Calibration Guide</h2>
-		  <p><strong>Notched Noise</strong>: Specifically attenuates your tinnitus pitch. This facilitates lateral inhibition to quiet hyperactive neurons.</p>
-		  <p><strong>CR Neuromodulation</strong>: This engine uses a dynamic sequence of four tones to desynchronize neural firing. Adjusting the slider now updates the sequence in real-time.</p>
-		  <p><strong>Visual Entrainment</strong>: Use Gamma (40 Hz) for investigational neuro-inflammatory reduction or Alpha (10 Hz) for autonomic stress relief.</p>
-		  <p><strong>Pure Vestibular (100 Hz)</strong>: Use for 60 seconds to alleviate motion sickness or dizziness. Volume must be audible and firm (80-85 dB)[cite: 5, 23, 27, 87].</p>
-		  <button class="close-modal" onclick="toggleHelp()">UNDERSTOOD</button>
-		</div>
-  </div>
 
 	<script charset="utf-8" crossorigin="anonymous">
 	;(function() {
-	    let engine = { active: false, nodes: [], visual: false, interval: null, poly: null, seq: null, mode: 'notched' };
-	    const sliders = { freq: document.getElementById('freqSlider'), vol: document.getElementById('volSlider'), mode: document.getElementById('modalitySelect'), preset: document.getElementById('presetSelect') };
-	    const labels = { freq: document.getElementById('freqLabel'), vol: document.getElementById('volLabel') };
+		let osc, timerInt;
+		let active = false;
+		let time = 90;
 
-	    function toggleHelp() {
-	        const m = document.getElementById('help-modal');
-	        m.style.display = ( m.style.display === 'flex' ) ? 'none' : 'flex';
-	    }
+		const btn = document.getElementById('toggleBtn');
+		const display = document.getElementById('timer');
+		const ui = document.getElementById('appInterface');
 
-	    async function initAudio() {
-	        if ( engine.active ) {return;}
-	        await Tone.start();
-	        engine.active = true;
-	        renderEngine();
-	    }
+		async function initTreatment() {
+			await Tone.start(); /*Required for browser interaction policies*/
 
-	    function stopAudio() {
-	        engine.active = false;
-	        if ( engine.seq ) { engine.seq.stop(); engine.seq.dispose(); engine.seq = null; }
-	        if ( engine.poly ) { engine.poly.dispose(); engine.poly = null; }
-	        engine.nodes.forEach(n => { if ( n.stop ) {n.stop(); n.dispose();} });
-	        engine.nodes = [];
-	        Tone.Transport.stop();
-	        Tone.Transport.cancel();
-	    }
+			osc = new Tone.Oscillator({
+			  frequency: 100,
+			  type: 'sine',
+			  volume: -6 /*Calibrated gain for safe but effective output*/
+			}).toDestination();
 
-	    function renderEngine() {
-	        if ( !engine.active ) {return;}
-	        const f = parseFloat(sliders.freq.value);
-	        const v = parseFloat(sliders.vol.value);
-	        const mode = sliders.mode.value;
+			/*0.5s ramp to maintain scientific acoustic integrity*/
+			osc.start().fadeIn = 0.5;
 
-	        if ( engine.nodes.length > 0 && engine.mode !== mode ) {
-	            const wasActive = engine.active;
-	            stopAudio();
-	            engine.active = wasActive;
-	        }
-	        engine.mode = mode;
-	        Tone.Destination.volume.rampTo(v, 0.1);
+			active = true;
+			btn.innerText = 'Stop Session';
+			ui.classList.add('active');
 
-	        if ( engine.nodes.length === 0 ) {
-	            if ( mode === 'notched' ) {
-	                const noise = new Tone.Noise("white").start();
-	                const filter = new Tone.Filter(f, "notch", -24).toDestination();
-	                noise.connect(filter);
-	                engine.nodes = [noise, filter];
-	            } else if ( mode === 'cr' ) {
-	                engine.poly = new Tone.PolySynth(Tone.SineOscillator).toDestination();
-	                engine.seq = new Tone.Sequence((time, multiplier) => {
-	                    /*FIX: Pull current base frequency inside the sequence callback for real-time response*/
-	                    const currentBase = parseFloat(sliders.freq.value);
-	                    engine.poly.triggerAttackRelease(currentBase * multiplier, "0.1", time);
-	                }, [0.9, 0.95, 1.05, 1.1], "8n").start(0);
-	                Tone.Transport.start();
-	                engine.nodes = [engine.seq];
-	            } else if ( mode === 'binaural' ) {
-	                const oL = new Tone.Oscillator(f, 'sine').connect(new Tone.Panner(-1).toDestination()).start();
-	                const oR = new Tone.Oscillator(f + 10, 'sine').connect(new Tone.Panner(1).toDestination()).start();
-	                engine.nodes = [oL, oR];
-	            } else if ( mode === 'high' || mode === 'pure' ) {
-	                const target = ( mode === 'pure' ) ? 100 : Math.max(f, 10000);
-	                const osc = new Tone.Oscillator(target, 'sine').toDestination().start();
-	                engine.nodes = [osc];
-	            }
-	        } else {
-	            /*Reactive updates for non-sequence modes*/
-	            engine.nodes.forEach(n => {
-	                if ( n.frequency && mode !== 'cr' ) {
-	                    n.frequency.rampTo(mode === 'pure' ? 100 : f, 0.05);
-	                }
-	            });
-	        }
-	    }
+			timerInt = setInterval(() => {
+			  time--;
+			  display.innerText = time + 's';
+			  if ( time <= 0 ) {
+			  	stopTreatment();
+			  }
+			}, 1000);
+		}
 
-	    sliders.freq.oninput = () => { labels.freq.innerText = sliders.freq.value + ' Hz'; renderEngine(); };
-	    sliders.vol.oninput = () => { labels.vol.innerText = sliders.vol.value + ' dB'; renderEngine(); };
-	    sliders.mode.onchange = () => { if ( engine.active ) {renderEngine();} };
-	    
-	    sliders.preset.onchange = () => {
-	        if ( sliders.preset.value ) {
-	            sliders.freq.value = sliders.preset.value;
-	            labels.freq.innerText = sliders.freq.value + ' Hz';
-	            if ( sliders.preset.value === '100' ) {sliders.mode.value = 'pure';}
-	            renderEngine();
-	        }
-	    };
+		function stopTreatment() {
+			if ( osc ) {
+			    osc.stop().fadeOut = 0.5;
+			    setTimeout(() => osc.dispose(), 600);
+			}
+			clearInterval(timerInt);
+			active = false;
+			time = 90;
+			display.innerText = '90s';
+			btn.innerText = 'Start Treatment';
+			ui.classList.remove('active');
+		}
 
-	    document.getElementById('mainBtn').onclick = function() {
-	        if ( !engine.active ) {
-	            this.innerText = 'DEACTIVATE ENGINE';
-	            this.className = 'main-btn active';
-	            initAudio();
-	        } else {
-	            this.innerText = 'ACTIVATE NEURAL ENGINE';
-	            this.className = 'main-btn';
-	            stopAudio();
-	        }
-	    };
+		btn.onclick = () => active ? stopTreatment() : initTreatment();
 
-	    document.getElementById('vBtn').onclick = function() {
-	        engine.visual = !engine.visual;
-	        const layer = document.getElementById('v-layer');
-	        if ( engine.visual ) {
-	            const hz = parseInt(document.getElementById('vFreq').value);
-	            layer.style.opacity = '1';
-	            this.innerText = 'STOP VISUAL';
-	            this.style.background = '#ff3333';
-	            let t = false;
-	            engine.interval = setInterval(() => { layer.style.background = t ? 'white' : 'black'; t = !t; }, 1000 / (hz * 2));
-	        } else {
-	            clearInterval(engine.interval);
-	            layer.style.opacity = '0';
-	            this.innerText = 'START VISUAL';
-	            this.style.background = '#222';
-	        }
-	    };
-
-	    if ( 'serviceWorker' in navigator ) {
-	    	navigator.serviceWorker.register('sw.js');
-	    }
+		if ( 'serviceWorker' in navigator ) {
+			navigator.serviceWorker.register('./sw.js');
+		}
 	})();
 	</script>
 </body>
